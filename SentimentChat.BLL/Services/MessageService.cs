@@ -27,6 +27,8 @@ public class MessageService : IMessageService
 			throw new ArgumentNullException(nameof(messageDTO));
 
 		var message = _mapper.Map<ChatMessage>(messageDTO);
+		message.Timestamp = DateTime.UtcNow;
+
 		await _repository.CreateMessageAsync(message);
 	}
 
