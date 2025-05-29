@@ -16,30 +16,37 @@ namespace SentimentChat
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
+			// DB
 			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 			builder.Services.AddDbContext<ApplicationDBContext>(options =>
 				options.UseSqlServer(connectionString));
 
-
-			// Add services to the container.
+			// AutoMapper
 			builder.Services.AddAutoMapper(typeof(ChatProfile));
+
+			// Repositories & Services
 			builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 			builder.Services.AddScoped<IMessageService, MessageService>();
 
-			builder.Services.AddSignalR();
+			// SignalR
+			builder.Services.AddSignalR()
+				.AddAzureSignalR(builder.Configuration["Azure:SignalR:ConnectionString"]);
+
+
+			// CORS
+			var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
 			builder.Services.AddCors(options =>
 			{
 				options.AddPolicy("AllowFrontend", policy =>
 				{
-					policy
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowCredentials()
-						.WithOrigins("http://localhost:3000");
+					policy.WithOrigins(allowedOrigins)
+						  .AllowAnyHeader()
+						  .AllowAnyMethod()
+						  .AllowCredentials();
 				});
 			});
+
 
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
@@ -76,9 +83,12 @@ namespace SentimentChat
 
 			app.UseAuthorization();
 
+			app.UseAzureSignalR(routes =>
+			{
+				routes.MapHub<ChatHub>("/chathub");
+			});
 
 			app.MapControllers();
-			app.MapHub<ChatHub>("/chathub");
 
 			app.Run();
 		}
