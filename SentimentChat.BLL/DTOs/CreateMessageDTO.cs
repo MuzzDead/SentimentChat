@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SentimentChat.BLL.DTOs;
 
-public class ChatMessageDTO
+public class CreateMessageDTO
 {
 	public string Username { get; set; }
 	public string Message { get; set; }
-	public string Sentiment { get; set; }
 }

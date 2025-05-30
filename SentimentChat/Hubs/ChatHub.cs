@@ -13,7 +13,7 @@ public class ChatHub : Hub
 		_service = service;
 	}
 
-	public async Task SendMessage(ChatMessageDTO message)
+	public async Task SendMessage(CreateMessageDTO message)
 	{
 		await _service.CreateMessage(message);
 

@@ -9,7 +9,7 @@ namespace SentimentChat.BLL.Interfaces;
 
 public interface IMessageService
 {
-	Task CreateMessage(ChatMessageDTO messageDTO);
+	Task CreateMessage(CreateMessageDTO messageDTO);
 	Task<ChatMessageDTO> GetMessage(Guid messageId);
 	Task<IEnumerable<ChatMessageDTO>> GetMessages();
 }

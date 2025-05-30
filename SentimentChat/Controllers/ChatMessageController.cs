@@ -34,7 +34,7 @@ namespace SentimentChat.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> PostMessage([FromBody] ChatMessageDTO message)
+		public async Task<ActionResult> PostMessage([FromBody] CreateMessageDTO message)
 		{
 			await _service.CreateMessage(message);
 			return Ok(new { Message = "Message created successfully" });

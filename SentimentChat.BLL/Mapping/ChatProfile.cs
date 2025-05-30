@@ -13,6 +13,7 @@ public class ChatProfile : Profile
 {
 	public ChatProfile()
 	{
-		 CreateMap<ChatMessage, ChatMessageDTO>().ReverseMap();
+		CreateMap<ChatMessage, ChatMessageDTO>().ReverseMap();
+		CreateMap<ChatMessage, CreateMessageDTO>().ReverseMap();
 	}
 }
