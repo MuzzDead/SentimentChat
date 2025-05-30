@@ -17,6 +17,7 @@ public class MessageRepository : IMessageRepository
 		_context = contecxt;
 	}
 
+	// Saves a new chat message to the database
 	public async Task CreateMessageAsync(ChatMessage message)
 	{
 		if (message == null) throw new ArgumentNullException(nameof(message));
@@ -25,12 +26,14 @@ public class MessageRepository : IMessageRepository
 		await _context.SaveChangesAsync();
 	}
 
+	// Retrieves a single chat message by its ID
 	public async Task<ChatMessage> GetMessageAsync(Guid messageId)
 	{
 		return await _context.Messages
 			.FirstOrDefaultAsync(m => m.Id == messageId);
 	}
 
+	// Retrieves all chat messages sorted by timestamp
 	public async Task<IEnumerable<ChatMessage>> GetMessagesAsync()
 	{
 		return await _context.Messages

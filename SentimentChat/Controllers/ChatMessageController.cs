@@ -11,33 +11,37 @@ namespace SentimentChat.Controllers
 	public class ChatMessageController : ControllerBase
 	{
 		private readonly IMessageService _service;
+
 		public ChatMessageController(IMessageService service)
 		{
 			_service = service;
 		}
 
+		// GET: api/chatmessage/{id}
 		[HttpGet("{messageId:guid}")]
-		public async Task<ActionResult<ChatMessageDTO>> GetMessage(Guid messageId)
+		public async Task<IActionResult> GetMessage(Guid messageId)
 		{
 			var message = await _service.GetMessage(messageId);
-			if (message == null) 
+			if (message == null)
 				return NotFound();
-
 			return Ok(message);
 		}
 
+		// GET: api/chatmessage
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ChatMessageDTO>>> GetMessages()
+		public async Task<IActionResult> GetMessages()
 		{
 			var messages = await _service.GetMessages();
 			return Ok(messages);
 		}
 
+		// POST: api/chatmessage
 		[HttpPost]
-		public async Task<ActionResult> PostMessage([FromBody] CreateMessageDTO message)
+		public async Task<IActionResult> PostMessage([FromBody] CreateMessageDTO message)
 		{
 			await _service.CreateMessage(message);
 			return Ok(new { Message = "Message created successfully" });
 		}
 	}
+
 }

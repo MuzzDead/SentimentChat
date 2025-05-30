@@ -13,15 +13,20 @@ namespace SentimentChat.BLL.Services;
 public class SentimentService : ISentimentService
 {
 	private readonly TextAnalyticsClient _client;
+
+	// Initializes the TextAnalyticsClient with Azure credentials
 	public SentimentService(IConfiguration configuration)
 	{
 		var endpoint = new Uri(configuration["AzureCognitive:Endpoint"]);
 		var key = new AzureKeyCredential(configuration["AzureCognitive:Key"]);
 		_client = new TextAnalyticsClient(endpoint, key);
 	}
+
+	// Analyzes sentiment of a given message text
 	public async Task<string> AnalyzeSentimentAsync(string message)
 	{
 		var result = await _client.AnalyzeSentimentAsync(message);
-		return result.Value.Sentiment.ToString(); // (Positive/Neutral/Negative)
+		return result.Value.Sentiment.ToString(); // "Positive", "Neutral", or "Negative"
 	}
 }
+
