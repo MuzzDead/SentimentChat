@@ -27,6 +27,7 @@ namespace SentimentChat
 			// Repositories & Services
 			builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 			builder.Services.AddScoped<IMessageService, MessageService>();
+			builder.Services.AddScoped<ISentimentService, SentimentService>();
 
 			// SignalR
 			builder.Services.AddSignalR()

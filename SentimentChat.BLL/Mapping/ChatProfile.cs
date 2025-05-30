@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace SentimentChat.BLL.Mapping;
 
+// AutoMapper profile for mapping between models and DTOs
 public class ChatProfile : Profile
 {
 	public ChatProfile()
 	{
-		 CreateMap<ChatMessage, ChatMessageDTO>().ReverseMap();
+		CreateMap<ChatMessage, ChatMessageDTO>().ReverseMap();
+		CreateMap<ChatMessage, CreateMessageDTO>().ReverseMap();
 	}
 }
