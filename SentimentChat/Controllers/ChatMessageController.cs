@@ -19,7 +19,7 @@ namespace SentimentChat.Controllers
 
 		// GET: api/chatmessage/{id}
 		[HttpGet("{messageId:guid}")]
-		public async Task<IActionResult> GetMessage(Guid messageId)
+		public async Task<ActionResult<ChatMessageDTO>> GetMessage(Guid messageId)
 		{
 			var message = await _service.GetMessage(messageId);
 			if (message == null)
@@ -29,7 +29,7 @@ namespace SentimentChat.Controllers
 
 		// GET: api/chatmessage
 		[HttpGet]
-		public async Task<IActionResult> GetMessages()
+		public async Task<ActionResult<IEnumerable<ChatMessageDTO>>> GetMessages()
 		{
 			var messages = await _service.GetMessages();
 			return Ok(messages);
@@ -37,7 +37,7 @@ namespace SentimentChat.Controllers
 
 		// POST: api/chatmessage
 		[HttpPost]
-		public async Task<IActionResult> PostMessage([FromBody] CreateMessageDTO message)
+		public async Task<ActionResult> PostMessage([FromBody] CreateMessageDTO message)
 		{
 			await _service.CreateMessage(message);
 			return Ok(new { Message = "Message created successfully" });
